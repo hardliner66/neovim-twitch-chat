@@ -1,0 +1,10 @@
+[package]
+authors = ["Justin Charette <charetjc@gmail.com>"]
+name = "neovim-scorched-earth"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+log = "0.3.7"
+simplelog = "0.4.2"
+neovim-lib = "0.6.1"
