@@ -4,8 +4,8 @@ endif
 
 let s:scriptdir = resolve(expand('<sfile>:p:h') . '/..')
 
-if ! exists('g:twitch_chat_program')
-  let g:twitch_chat_program = s:scriptdir . '/target/release/neovim-twitch-chat'
+if ! exists('g:twitch_chat_binary')
+  let g:twitch_chat_binary = s:scriptdir . '/target/release/neovim-twitch-chat'
 endif
 
 function! twitchChat#init()
@@ -77,7 +77,7 @@ endfunction
 
 function! s:StartJob()
   if 0 == s:jobid
-    let id = jobstart([g:twitch_chat_program], { 'rpc': v:true, 'on_stderr': function('s:OnStderr') })
+    let id = jobstart([g:twitch_chat_binary], { 'rpc': v:true, 'on_stderr': function('s:OnStderr') })
     return id
   else
     return 0
