@@ -8,3 +8,4 @@ edition = "2018"
 log = "0.3.7"
 simplelog = "0.4.2"
 neovim-lib = "0.6.1"
+twitch_chat_wrapper = { git = "https://github.com/hardliner66/twitch_chat_wrapper", branch = "all_my_fixes" }

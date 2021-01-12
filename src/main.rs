@@ -2,6 +2,8 @@ mod args;
 mod event;
 mod handler;
 
+use twitch_chat_wrapper::{run, ChatMessage};
+use std::sync::mpsc::channel;
 use crate::event::Event;
 use crate::handler::NeovimHandler;
 
@@ -98,10 +100,43 @@ fn start_program() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+fn channels_to_join() -> Result<Vec<String>, Box<dyn std::error::Error>> {
+    let channels = get_env_var("NVIM_TWITCH_CHANNEL")?
+        .split(',')
+        .map(ToString::to_string)
+        .collect();
+    Ok(channels)
+}
+
+fn get_env_var(key: &str) -> Result<String, Box<dyn std::error::Error>> {
+    let my_var = std::env::var(key)?;
+    Ok(my_var)
+}
+
 fn start_event_loop(receiver: mpsc::Receiver<Event>, mut nvim: Neovim) {
+    let (tx, rx) = channel::<String>();
+    let (tx2, rx2) = channel::<ChatMessage>();
+
+    let twitch_name = get_env_var("NVIM_TWITCH_NAME").unwrap();
+    let twitch_token = get_env_var("NVIM_TWITCH_TOKEN").unwrap();
+    let channels_to_join = channels_to_join().unwrap();
+
+    std::thread::spawn(move || {
+        run(twitch_name, twitch_token, channels_to_join, rx, tx2).unwrap()
+    });
+
+    std::thread::spawn(move || {
+        loop {
+            let _msg = rx2.recv();
+            std::thread::sleep(std::time::Duration::from_secs(1));
+        }
+    });
+
     loop {
         match receiver.recv() {
-            Ok(Event::ReceivedMessage(msg)) => { let _ = msg; },
+            Ok(Event::ReceivedMessage(msg)) => {
+                let _ = tx.send(msg);
+            },
             Ok(Event::Quit) => break,
             _ => {}
         }

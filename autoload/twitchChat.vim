@@ -29,6 +29,33 @@ function! twitchChat#sendMessage(msg)
     call rpcnotify(s:jobid, 'received-message', a:msg)
 endfunction
 
+function! twitchChat#sendSelected()
+    let selected = twitchChat#getSelected()
+    call twitchChat#sendMessage(l:selected)
+endfunction
+
+function! twitchChat#getSelected()
+
+    " save reg
+    let reg = v:register
+    let reg_save = getreg(reg)
+    let reg_type = getregtype(reg)
+
+    " yank visually selected text
+    silent exe 'norm! gv"'.reg.'y'
+    let value = getreg(reg)
+
+    " restore reg
+    call setreg(reg,reg_save,reg_type)
+
+    return value
+endfun
+
+function! twitchChat#sendLine()
+    let selected = getline(".")
+    call twitchChat#sendMessage(l:selected)
+endfunction
+
 function! twitchChat#reset()
   let s:jobid = 0
 endfunction
@@ -42,7 +69,10 @@ function! s:ConfigureJob(jobid)
 endfunction
 
 function! s:OnStderr(id, data, event) dict
-  echom 'twitch chat: stderr: ' . join(a:data, "\n")
+  echom 'twitch chat: stderr: ' . join(a:data, " ")
+
+  " let text = 'twitch chat: stderr: ' . join(a:data, "\n")
+  " exe "normal! a" . text . "\<Esc>"
 endfunction
 
 function! s:StartJob()

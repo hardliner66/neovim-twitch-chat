@@ -15,3 +15,9 @@
 " except according to those terms.
 
 command! -nargs=0 TwitchChatConnect call twitchChat#connect()
+command! -nargs=0 TwitchChatSendSelected call twitchChat#sendSelected()
+command! -nargs=0 TwitchChatSendLine call twitchChat#sendLine()
+command! -nargs=1 TwitchChatSendMessage call twitchChat#sendMessage(<q-args>)
+
+vnoremap <silent> <C-s>s :<C-U>TwitchChatSendSelected<CR>
+nnoremap <silent> <C-s>l :TwitchChatSendLine<CR>
