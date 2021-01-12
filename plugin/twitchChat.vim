@@ -1,12 +1,12 @@
-" File: scortchedEarth.vim
-" Last Modified: 2017-03-20
+" File: twitchChat.vim
+" Last Modified: 2021-01-12
 " Version: 0.0.1
-" Description: Scorched Earth -- highlights changes made in replacement mode.
-" Website:
-" Author: Justin Charette (charetjc@gmail.com)
+" Description: Twitch Chat -- allows sending of commands to twitch from inside vim.
+" Website: 
+" Author: Steve Biedermann
 " License: MIT + Apache 2.0
 "
-" Copyright 2017 Justin Charette
+" Copyright 2021 Steve Biedermann
 "
 " Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
 " http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
@@ -14,4 +14,4 @@
 " option. This file may not be copied, modified, or distributed
 " except according to those terms.
 
-command! -nargs=0 ScorchedEarthConnect call scorchedEarth#connect()
+command! -nargs=0 TwitchChatConnect call twitchChat#connect()

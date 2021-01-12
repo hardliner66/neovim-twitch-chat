@@ -8,6 +8,6 @@
 
 set rtp+=$PWD
 
-source $PWD/plugin/scorchedEarth.vim
+source $PWD/plugin/twitchChat.vim
 
 " Usage: nvim -u init.vim --noplugin

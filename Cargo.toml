@@ -1,6 +1,6 @@
 [package]
-authors = ["Justin Charette <charetjc@gmail.com>"]
-name = "neovim-scorched-earth"
+authors = ["Steve Biedermann"]
+name = "neovim-twitch-chat"
 version = "0.1.0"
 edition = "2018"
 
