@@ -16,7 +16,9 @@ You will need to set the following environment variables
 ## Install the binary
 
 ```bash
-cargo install --force neovim-twitch-chat
+git clone https://github.com/hardliner66/neovim-twitch-chat
+cd neovim-twitch-chat
+cargo install --force --path .
 ```
 
 ## Install the plugin with plug
