@@ -108,5 +108,3 @@ function! s:StopJob()
     let s:jobid = 0
   endif
 endfunction
-
-call twitchChat#connect()
