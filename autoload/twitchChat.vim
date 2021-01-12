@@ -11,7 +11,10 @@ endif
 let s:scriptdir = resolve(expand('<sfile>:p:h') . '/..')
 
 if ! exists('g:twitch_chat_binary')
-  let g:twitch_chat_binary = s:scriptdir . '/target/release/neovim-twitch-chat'
+    let g:twitch_chat_binary = s:scriptdir . '/target/release/neovim-twitch-chat'
+    if ! executable(g:twitch_chat_binary)
+        let g:twitch_chat_binary = 'neovim-twitch-chat'
+    endif
 endif
 
 function! twitchChat#init()
