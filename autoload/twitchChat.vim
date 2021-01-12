@@ -1,3 +1,9 @@
+
+if exists('g:autoloaded_twitch_chat')
+  finish
+endif
+let g:autoloaded_twitch_chat = 1
+
 if ! exists('s:jobid')
   let s:jobid = 0
 endif
@@ -102,3 +108,5 @@ function! s:StopJob()
     let s:jobid = 0
   endif
 endfunction
+
+call twitchChat#connect()

@@ -14,6 +14,11 @@
 " option. This file may not be copied, modified, or distributed
 " except according to those terms.
 
+if exists('g:loaded_twitch_chat')
+  finish
+endif
+let g:loaded_twitch_chat = 1
+
 command! -nargs=0 TwitchChatConnect call twitchChat#connect()
 command! -nargs=0 TwitchChatSendSelected call twitchChat#sendSelected()
 command! -nargs=0 TwitchChatSendLine call twitchChat#sendLine()
