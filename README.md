@@ -27,6 +27,13 @@ cargo install --force --path .
 Plug 'hardliner66/neovim-twitch-chat'
 ```
 
+## Default Bindings
+
+```vim
+vnoremap <silent> <C-s>s :<C-U>TwitchChatSendSelected<CR>
+nnoremap <silent> <C-s>l :TwitchChatSendLine<CR>
+```
+
 ## Development Setup
 
 1.  Install Rustup:  https://www.rustup.rs/
