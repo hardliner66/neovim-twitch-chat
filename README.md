@@ -13,13 +13,13 @@ rustup default stable
 2.  Fetch the plugin.
 
 ```sh
-$ git clone https://github.com/boxofrox/neovim-scorched-earth.git
+$ git clone https://github.com/hardliner66/neovim-twitch-chat
 ```
 
 3.  Build the binary portion of the plugin.
 
 ```sh
-$ cd neovim-scorched-earth
+$ cd neovim-twitch-chat
 $ cargo build --release
 ```
 
@@ -27,9 +27,9 @@ $ cargo build --release
     changes, open an issue!)*
 
 ```sh
-nvim -u ./init.vim --noplugin -c ":ScorchedEarthConnect"
+nvim -u ./init.vim --noplugin -c ":TwitchChatConnect"
 ```
 
-The `ScorchedEarthConnect` command spawns the Rust plugin in a separate process and
+The `TwitchChatConnect` command spawns the Rust plugin in a separate process and
 establishes a channel.
 
