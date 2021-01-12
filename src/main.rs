@@ -86,7 +86,7 @@ fn start_program() -> Result<(), Box<dyn Error>> {
     let mut nvim = Neovim::new(session);
 
     info!("let's notify neovim the plugin is connected!");
-    nvim.command("echom \"rust client connected to neovim\"")
+    nvim.command("echom \"twitch chat plugin connected to neovim\"")
         .unwrap();
     info!("notification complete!");
 
