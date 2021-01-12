@@ -39,12 +39,13 @@ function! twitchChat#sendMessage(msg)
 endfunction
 
 function! twitchChat#sendSelected()
-    let selected = twitchChat#getSelected()
-    call twitchChat#sendMessage(l:selected)
+    if mode() = 'v'
+        let selected = twitchChat#getSelected()
+        call twitchChat#sendMessage(l:selected)
+    endif
 endfunction
 
 function! twitchChat#getSelected()
-
     " save reg
     let reg = v:register
     let reg_save = getreg(reg)

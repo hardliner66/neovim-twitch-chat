@@ -100,12 +100,9 @@ fn start_program() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn channels_to_join() -> Result<Vec<String>, Box<dyn std::error::Error>> {
-    let channels = get_env_var("NVIM_TWITCH_CHANNEL")?
-        .split(',')
-        .map(ToString::to_string)
-        .collect();
-    Ok(channels)
+fn channel_to_join() -> Result<Vec<String>, Box<dyn std::error::Error>> {
+    let channel = get_env_var("NVIM_TWITCH_CHANNEL")?;
+    Ok(vec![channel])
 }
 
 fn get_env_var(key: &str) -> Result<String, Box<dyn std::error::Error>> {
@@ -119,10 +116,10 @@ fn start_event_loop(receiver: mpsc::Receiver<Event>, mut nvim: Neovim) {
 
     let twitch_name = get_env_var("NVIM_TWITCH_NAME").unwrap();
     let twitch_token = get_env_var("NVIM_TWITCH_TOKEN").unwrap();
-    let channels_to_join = channels_to_join().unwrap();
+    let channel_to_join = channel_to_join().unwrap();
 
     std::thread::spawn(move || {
-        run(twitch_name, twitch_token, channels_to_join, rx, tx2).unwrap()
+        run(twitch_name, twitch_token, channel_to_join, rx, tx2).unwrap()
     });
 
     std::thread::spawn(move || {
