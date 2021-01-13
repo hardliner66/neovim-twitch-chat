@@ -101,7 +101,7 @@ endfunction
 
 function! s:StartJob()
   if 0 == s:jobid
-    let id = jobstart([g:twitch_chat_binary], { 'rpc': v:true, 'on_stderr': function('s:OnStderr') })
+    let id = jobstart([g:twitch_chat_binary], { 'rpc': v:true, 'on_stderr': function('s:OnStderr'), "env": {'CWD': getcwd()} })
     return id
   else
     return 0
