@@ -11,10 +11,20 @@ if exists('g:loaded_twitch_chat')
 endif
 let g:loaded_twitch_chat = 1
 
+if !exists('g:twitch_scratch_height')
+  let g:twitch_scratch_height = 0.2
+endif
+
+if !exists('g:twitch_scratch_top')
+  let g:twitch_scratch_top = 1
+endif
+
 command! -nargs=0 TwitchChatConnect call twitchChat#connect()
 command! -nargs=0 TwitchChatSendSelected call twitchChat#sendSelected()
 command! -nargs=0 TwitchChatSendLine call twitchChat#sendLine()
 command! -nargs=1 TwitchChatSendMessage call twitchChat#sendMessage(<q-args>)
+command! -nargs=0 TwitchChatScratch call twitchChat#scratch()
 
-vnoremap <silent> <C-s>s :<C-U>TwitchChatSendSelected<CR>
-nnoremap <silent> <C-s>l :TwitchChatSendLine<CR>
+vnoremap <silent> <C-s><C-s> :<C-U>TwitchChatSendSelected<CR>
+nnoremap <silent> <C-s><C-l> :TwitchChatSendLine<CR>
+nnoremap <silent> <C-s><C-b> :TwitchChatScratch<CR>

@@ -127,4 +127,113 @@ function! s:StopJob()
   endif
 endfunction
 
+function! Strip(input_string)
+    return substitute(a:input_string, '^\s*\(.\{-}\)\s*$', '\1', '')
+endfunction
+
+function! s:close_window()
+    let content = Strip(join(getline(1,'$'), " "))
+    if len(content) > 0
+        call twitchChat#sendMessage(content)
+    endif
+
+  " close scratch window if it is the last window open, or if force
+    let prev_bufnr = bufnr('#')
+    let scr_bufnr = bufnr('__Scratch__')
+    if scr_bufnr != -1
+      " Temporarily deactivate these autocommands to prevent overflow, but
+      " still allow other autocommands to be executed.
+      call s:deactivate_autocmds()
+      close
+      execute bufwinnr(prev_bufnr) . 'wincmd w'
+      call s:activate_autocmds(scr_bufnr)
+    endif
+endfunction
+
+function! s:activate_autocmds(bufnr)
+    augroup ScratchAutoHide
+      autocmd!
+      execute 'autocmd WinEnter <buffer=' . a:bufnr . '> nested call <SID>close_window()'
+      execute 'autocmd Winleave <buffer=' . a:bufnr . '> nested call <SID>close_window()'
+    augroup END
+endfunction
+
+function! s:deactivate_autocmds()
+  augroup ScratchAutoHide
+    autocmd!
+  augroup END
+endfunction
+
+function! s:resolve_size(size)
+  " if a:size is an int, return that number, else it is a float
+  " interpret it as a fraction of the screen size and return the
+  " corresponding number of lines
+  if has('float') && type(a:size) ==# 5 " type number for float
+    let win_size = winheight(0)
+    return float2nr(a:size * win_size)
+  else
+    return a:size
+  endif
+endfunction
+
+function! s:open_window(position)
+  " open scratch buffer window and move to it. this will create the buffer if
+  " necessary.
+  let scr_bufnr = bufnr('__Scratch__')
+  if scr_bufnr == -1
+    let cmd = 'new'
+    execute a:position . s:resolve_size(g:twitch_scratch_height) . cmd . ' __Scratch__'
+    execute 'setlocal filetype=scratch'
+    setlocal bufhidden=hide
+    setlocal nobuflisted
+    setlocal buftype=nofile
+    setlocal foldcolumn=0
+    setlocal nofoldenable
+    setlocal nonumber
+    setlocal noswapfile
+    setlocal winfixheight
+    setlocal winfixwidth
+    call s:activate_autocmds(bufnr('%'))
+  else
+    let scr_winnr = bufwinnr(scr_bufnr)
+    if scr_winnr != -1
+      if winnr() != scr_winnr
+        execute scr_winnr . 'wincmd w'
+      endif
+    else
+      let cmd = 'split'
+      execute a:position . s:resolve_size(g:twitch_scratch_height) . cmd . ' +buffer' . scr_bufnr
+    endif
+  endif
+endfunction
+
+function! twitchChat#scratchOpen()
+  " sanity check and open scratch buffer
+  if bufname('%') ==# '[Command Line]'
+    echoerr 'Unable to open scratch buffer from command line window.'
+    return
+  endif
+  let position = g:twitch_scratch_top ? 'topleft ' : 'botright '
+  call s:open_window(position)
+  silent execute '%d _'
+endfunction
+
+function! twitchChat#scratch()
+  " open scratch buffer
+  call twitchChat#scratchOpen()
+    augroup ScratchInsertAutoHide
+      autocmd!
+      " autocmd InsertLeave <buffer> nested call <SID>quick_insert()
+    augroup END
+  startinsert!
+endfunction
+
+function! s:quick_insert()
+  " leave scratch window after leaving insert mode and remove corresponding autocommand
+  augroup ScratchInsertAutoHide
+    autocmd!
+  augroup END
+  execute bufwinnr(bufnr('#')) . 'wincmd w'
+endfunction
+
 call twitchChat#connect()

@@ -30,8 +30,9 @@ Plug 'hardliner66/neovim-twitch-chat'
 ## Default Bindings
 
 ```vim
-vnoremap <silent> <C-s>s :<C-U>TwitchChatSendSelected<CR>
-nnoremap <silent> <C-s>l :TwitchChatSendLine<CR>
+vnoremap <silent> <C-s><C-s> :<C-U>TwitchChatSendSelected<CR>
+nnoremap <silent> <C-s><C-l> :TwitchChatSendLine<CR>
+nnoremap <silent> <C-s><C-b> :TwitchChatScratch<CR>
 ```
 
 ## Development Setup
