@@ -9,9 +9,9 @@ This plugin let's you send text to twitch chat from inside neovim!
 ## Setup twitch authentication
 
 You will need to set the following environment variables
-- NEOVIM_TWITCH_TOKEN can be generated at [twitchapps.com/tmi](https://twitchapps.com/tmi).
-- NEOVIM_TWITCH_NAME is your twitch name
-- NEOVIM_TWITCH_CHANNEL the twitch channel to join
+- NVIM_TWITCH_TOKEN can be generated at [twitchapps.com/tmi](https://twitchapps.com/tmi).
+- NVIM_TWITCH_NAME is your twitch name
+- NVIM_TWITCH_CHANNEL the twitch channel to join
 
 ## Install the binary
 
