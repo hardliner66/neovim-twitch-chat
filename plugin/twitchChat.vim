@@ -25,6 +25,6 @@ command! -nargs=0 TwitchChatSendLine call twitchChat#sendLine()
 command! -nargs=1 TwitchChatSendMessage call twitchChat#sendMessage(<q-args>)
 command! -nargs=0 TwitchChatScratch call twitchChat#scratch()
 
-vnoremap <silent> <C-s><C-s> :<C-U>TwitchChatSendSelected<CR>
-nnoremap <silent> <C-s><C-l> :TwitchChatSendLine<CR>
-nnoremap <silent> <C-s><C-b> :TwitchChatScratch<CR>
+vnoremap <silent> <C-s>n :<C-U>TwitchChatSendSelected<CR>
+nnoremap <silent> <C-s>n :TwitchChatSendLine<CR>
+nnoremap <silent> <C-s>k :TwitchChatScratch<CR>
