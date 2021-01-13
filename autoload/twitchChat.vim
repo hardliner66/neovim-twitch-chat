@@ -35,31 +35,45 @@ function! twitchChat#connect()
 endfunction
 
 function! twitchChat#sendMessage(msg)
-    call rpcnotify(s:jobid, 'received-message', a:msg)
+    call rpcnotify(s:jobid, 'received-message', substitute(a:msg, '(\r\n|\r|\n)', ' ', 'g'))
 endfunction
 
 function! twitchChat#sendSelected()
-    if mode() = 'v'
-        let selected = twitchChat#getSelected()
-        call twitchChat#sendMessage(l:selected)
-    endif
+    let selected = VisualSelection()
+    call twitchChat#sendMessage(l:selected)
 endfunction
 
-function! twitchChat#getSelected()
-    " save reg
-    let reg = v:register
-    let reg_save = getreg(reg)
-    let reg_type = getregtype(reg)
+function! VisualSelection()
+    if mode()=="v"
+        let [line_start, column_start] = getpos("v")[1:2]
+        let [line_end, column_end] = getpos(".")[1:2]
+    else
+        let [line_start, column_start] = getpos("'<")[1:2]
+        let [line_end, column_end] = getpos("'>")[1:2]
+    end
 
-    " yank visually selected text
-    silent exe 'norm! gv"'.reg.'y'
-    let value = getreg(reg)
-
-    " restore reg
-    call setreg(reg,reg_save,reg_type)
-
-    return value
-endfun
+    if (line2byte(line_start)+column_start) > (line2byte(line_end)+column_end)
+        let [line_start, column_start, line_end, column_end] =
+        \   [line_end, column_end, line_start, column_start]
+    end
+    let lines = getline(line_start, line_end)
+    if len(lines) == 0
+            return ['']
+    endif
+    if &selection ==# "exclusive"
+        let column_end -= 1 "Needed to remove the last character to make it match the visual selction
+    endif
+    if visualmode() ==# "\<C-V>"
+        for idx in range(len(lines))
+            let lines[idx] = lines[idx][: column_end - 1]
+            let lines[idx] = lines[idx][column_start - 1:]
+        endfor
+    else
+        let lines[-1] = lines[-1][: column_end - 1]
+        let lines[ 0] = lines[ 0][column_start - 1:]
+    endif
+    return join(lines, " ") "use this return instead if you need a text block
+endfunction
 
 function! twitchChat#sendLine()
     let selected = getline(".")
