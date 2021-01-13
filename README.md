@@ -35,6 +35,18 @@ nnoremap <silent> <C-s>n :TwitchChatSendLine<CR>
 nnoremap <silent> <C-s>k :TwitchChatScratch<CR>
 ```
 
+## Settings
+```vim
+" scratch window height in percent
+let g:twitch_scratch_height = 0.2
+
+" if the scratch window shows on top or at the bottom
+let g:twitch_scratch_top = 1
+
+"
+let g:twitch_scratch_autosend = 0
+```
+
 ## Development Setup
 
 1.  Install Rustup:  https://www.rustup.rs/

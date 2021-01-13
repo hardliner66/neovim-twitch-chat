@@ -23,8 +23,8 @@ endif
 "   let g:twitch_scratch_autohide = &hidden
 " endif
 
-if !exists('g:twitch_scratch_insert_autohide')
-  let g:twitch_scratch_insert_autohide = 0
+if !exists('g:twitch_scratch_autosend')
+  let g:twitch_scratch_autosend = 0
 endif
 
 command! -nargs=0 TwitchChatConnect call twitchChat#connect()
