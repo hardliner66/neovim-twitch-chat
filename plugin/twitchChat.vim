@@ -19,6 +19,14 @@ if !exists('g:twitch_scratch_top')
   let g:twitch_scratch_top = 1
 endif
 
+if !exists('g:twitch_scratch_autohide')
+  let g:twitch_scratch_autohide = &hidden
+endif
+
+if !exists('g:twitch_scratch_insert_autohide')
+  let g:twitch_scratch_insert_autohide = 0
+endif
+
 command! -nargs=0 TwitchChatConnect call twitchChat#connect()
 command! -nargs=0 TwitchChatSendSelected call twitchChat#sendSelected()
 command! -nargs=0 TwitchChatSendLine call twitchChat#sendLine()

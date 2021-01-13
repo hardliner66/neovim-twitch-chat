@@ -231,7 +231,7 @@ function! twitchChat#scratch()
   call twitchChat#scratchOpen()
     augroup ScratchInsertAutoHide
       autocmd!
-      " autocmd InsertLeave <buffer> nested call <SID>quick_insert()
+      autocmd InsertLeave <buffer> nested call <SID>quick_insert()
     augroup END
   startinsert!
 endfunction
