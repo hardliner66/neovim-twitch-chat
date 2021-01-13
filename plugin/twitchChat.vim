@@ -19,9 +19,9 @@ if !exists('g:twitch_scratch_top')
   let g:twitch_scratch_top = 1
 endif
 
-if !exists('g:twitch_scratch_autohide')
-  let g:twitch_scratch_autohide = &hidden
-endif
+" if !exists('g:twitch_scratch_autohide')
+"   let g:twitch_scratch_autohide = &hidden
+" endif
 
 if !exists('g:twitch_scratch_insert_autohide')
   let g:twitch_scratch_insert_autohide = 0

@@ -229,10 +229,12 @@ endfunction
 function! twitchChat#scratch()
   " open scratch buffer
   call twitchChat#scratchOpen()
+  if g:twitch_scratch_insert_autohide
     augroup ScratchInsertAutoHide
       autocmd!
       autocmd InsertLeave <buffer> nested call <SID>quick_insert()
     augroup END
+  endif
   startinsert!
 endfunction
 
