@@ -111,6 +111,7 @@ fn get_env_var(key: &str) -> Result<String, Box<dyn std::error::Error>> {
 }
 
 fn start_event_loop(receiver: mpsc::Receiver<Event>, mut nvim: Neovim) {
+    dotenv::dotenv().ok();
     let (tx, rx) = channel::<String>();
     let (tx2, rx2) = channel::<ChatMessage>();
 
