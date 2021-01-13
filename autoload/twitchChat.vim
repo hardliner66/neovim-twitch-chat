@@ -131,13 +131,13 @@ function! Strip(input_string)
     return substitute(a:input_string, '^\s*\(.\{-}\)\s*$', '\1', '')
 endfunction
 
-function! s:close_window()
+function! s:close_window(force)
     let content = Strip(join(getline(1,'$'), " "))
     if len(content) > 0
         call twitchChat#sendMessage(content)
     endif
 
-  " close scratch window if it is the last window open, or if force
+  if a:force
     let prev_bufnr = bufnr('#')
     let scr_bufnr = bufnr('__Scratch__')
     if scr_bufnr != -1
@@ -148,13 +148,21 @@ function! s:close_window()
       execute bufwinnr(prev_bufnr) . 'wincmd w'
       call s:activate_autocmds(scr_bufnr)
     endif
+  elseif winbufnr(2) == -1
+    if tabpagenr('$') == 1
+      bdelete
+      quit
+    else
+      close
+    endif
+  endif
 endfunction
 
 function! s:activate_autocmds(bufnr)
     augroup ScratchAutoHide
       autocmd!
-      execute 'autocmd WinEnter <buffer=' . a:bufnr . '> nested call <SID>close_window()'
-      execute 'autocmd Winleave <buffer=' . a:bufnr . '> nested call <SID>close_window()'
+      execute 'autocmd WinEnter <buffer=' . a:bufnr . '> nested call <SID>close_window(0)'
+      execute 'autocmd Winleave <buffer=' . a:bufnr . '> nested call <SID>close_window(1)'
     augroup END
 endfunction
 
