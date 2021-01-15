@@ -225,6 +225,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "dotenv"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "77c90badedccf4105eca100756a0b1289e191f6fcbdadd3cee1d2f614f97da8f"
+
+[[package]]
 name = "easy-parallel"
 version = "3.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -404,6 +410,7 @@ dependencies = [
 name = "neovim-twitch-chat"
 version = "0.1.0"
 dependencies = [
+ "dotenv",
  "log 0.3.9",
  "neovim-lib",
  "simplelog",
@@ -636,7 +643,7 @@ dependencies = [
 [[package]]
 name = "twitch_chat_wrapper"
 version = "0.2.0"
-source = "git+https://github.com/hardliner66/twitch_chat_wrapper?branch=all_my_fixes#2aecabd117f49c8fa01783f21b933fa834d05c88"
+source = "git+https://github.com/hardliner66/twitch_chat_wrapper?branch=eof_crash_workaround#a6a5e11cc94542061f8ae65b38fb0b02f1285151"
 dependencies = [
  "eyre",
  "smol 0.3.3",

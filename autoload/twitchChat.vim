@@ -8,6 +8,36 @@ if ! exists('s:jobid')
   let s:jobid = 0
 endif
 
+if ! exists('s:autocomplete_names')
+    let s:autocomplete_names = []
+endif
+
+function! twitchChat#printAuto()
+    let line = join(s:autocomplete_names, " ")
+    echom line
+endfunction
+
+function! twitchChat#autoComplete(findstart, base)
+    if a:findstart
+        " locate the start of the word
+        let line = getline('.')
+        let start = col('.') - 1
+        while start > 0 && (line[start - 1] =~ '\a' || line[start - 1] =~ '.' || line[start - 1] =~ '-')
+            let start -= 1
+        endwhile
+        return start
+    else
+        " find classes matching "a:base"
+        let res = []
+        for m in s:autocomplete_names
+            if m =~ '^' . a:base
+                call add(res, m)
+            endif
+        endfor
+        return res
+    endif
+endfun
+
 let s:scriptdir = resolve(expand('<sfile>:p:h') . '/..')
 
 if ! exists('g:twitch_chat_binary')
@@ -16,6 +46,10 @@ if ! exists('g:twitch_chat_binary')
         let g:twitch_chat_binary = 'neovim-twitch-chat'
     endif
 endif
+
+function! twitchChat#setAutoComplete(...)
+    let s:autocomplete_names = a:000
+endfunction
 
 function! twitchChat#init()
   call twitchChat#connect()
@@ -201,6 +235,7 @@ function! s:open_window(position)
     setlocal noswapfile
     setlocal winfixheight
     setlocal winfixwidth
+    setlocal completefunc=twitchChat#autoComplete
     call s:activate_autocmds(bufnr('%'))
   else
     let scr_winnr = bufwinnr(scr_bufnr)

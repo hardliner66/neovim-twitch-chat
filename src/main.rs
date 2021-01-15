@@ -3,7 +3,7 @@ mod event;
 mod handler;
 
 use twitch_chat_wrapper::{run, ChatMessage};
-use std::sync::mpsc::channel;
+use std::sync::{Arc, Mutex, mpsc::channel};
 use crate::event::Event;
 use crate::handler::NeovimHandler;
 
@@ -123,10 +123,23 @@ fn start_event_loop(receiver: mpsc::Receiver<Event>, mut nvim: Neovim) {
         run(twitch_name, twitch_token, channel_to_join, rx, tx2).unwrap()
     });
 
+    let nvim = Arc::new(Mutex::new(nvim));
+    let nvim2 = nvim.clone();
+
     std::thread::spawn(move || {
+        let mut names = Vec::new();
         loop {
-            let _msg = rx2.recv();
-            std::thread::sleep(std::time::Duration::from_secs(1));
+            let msg = rx2.recv().unwrap();
+
+            if !names.contains(&msg.name) {
+                names.push(msg.name);
+                
+                // update autocomplete list in vim
+                let mut nvim = nvim2.lock().unwrap();
+                nvim.command("echom \"new chatter joined\"") .unwrap();
+                nvim.call_function("twitchChat#setAutoComplete", names.iter().map(|s| s.as_str().into()).collect::<Vec<_>>()).unwrap();
+                // nvim.set_var("g:something", "abcd".into()).unwrap();
+            }
         }
     });
 
@@ -140,7 +153,6 @@ fn start_event_loop(receiver: mpsc::Receiver<Event>, mut nvim: Neovim) {
         }
     }
     info!("quitting");
-    nvim.command("echom \"rust client disconnected from neovim\"")
-        .unwrap();
+    nvim.lock().unwrap().command("echom \"rust client disconnected from neovim\"") .unwrap();
 }
 
