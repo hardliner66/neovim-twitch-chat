@@ -43,9 +43,13 @@ let g:twitch_scratch_height = 0.2
 " if the scratch window shows on top or at the bottom
 let g:twitch_scratch_top = 1
 
+" if set to 1, automatically closes the scratch window on ESC
+" and sends the whole buffer to twitch
 "
+" you can use <C-c> to enter normal mode even if twitch_scratch_autosend is set to 1
 let g:twitch_scratch_autosend = 0
 
+" list of usernames which get excluded for autocomplete
 let g:twitch_chat_name_filter = ["username"]
 ```
 
