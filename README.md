@@ -45,6 +45,8 @@ let g:twitch_scratch_top = 1
 
 "
 let g:twitch_scratch_autosend = 0
+
+let g:twitch_chat_name_filter = ["username"]
 ```
 
 ## Development Setup
