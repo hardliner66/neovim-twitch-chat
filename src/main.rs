@@ -132,11 +132,11 @@ fn start_event_loop(receiver: mpsc::Receiver<Event>, nvim: Neovim) {
             let msg = rx2.recv().unwrap();
 
             if !names.contains(&msg.name) {
-                names.push(msg.name);
+                names.push(msg.name.clone());
                 
                 // update autocomplete list in vim
                 let mut nvim = nvim2.lock().unwrap();
-                nvim.call_function("twitchChat#setAutoComplete", names.iter().map(|s| s.as_str().into()).collect::<Vec<_>>()).unwrap();
+                nvim.call_function("twitchChat#setAutoComplete", vec![msg.name.as_str().into()]).unwrap();
             }
         }
     });

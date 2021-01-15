@@ -12,11 +12,6 @@ if ! exists('s:autocomplete_names')
     let s:autocomplete_names = []
 endif
 
-function! twitchChat#printAuto()
-    let line = join(s:autocomplete_names, " ")
-    echom line
-endfunction
-
 func! AutoCompleteNames()
   call complete(col('.'), s:autocomplete_names)
   return ''
@@ -52,8 +47,8 @@ if ! exists('g:twitch_chat_binary')
     endif
 endif
 
-function! twitchChat#setAutoComplete(...)
-    let s:autocomplete_names = a:000
+function! twitchChat#setAutoComplete(name)
+    call add(s:autocomplete_names, name)
 endfunction
 
 function! twitchChat#init()
@@ -240,9 +235,9 @@ function! s:open_window(position)
     setlocal noswapfile
     setlocal winfixheight
     setlocal winfixwidth
-    " setlocal completefunc=twitchChat#autoComplete
-    " inoremap <buffer><silent><expr> <c-space> <C-x><C-u>
-	inoremap <C-space> <C-R>=AutoCompleteNames()<CR>
+    setlocal completefunc=twitchChat#autoComplete
+    inoremap <buffer><silent><expr> <c-space> :call feedkeys("\<C-x>\<C-u>", "n")
+	" inoremap <C-space> <C-R>=AutoCompleteNames()<CR>
     call s:activate_autocmds(bufnr('%'))
   else
     let scr_winnr = bufwinnr(scr_bufnr)
