@@ -17,6 +17,11 @@ function! twitchChat#printAuto()
     echom line
 endfunction
 
+func! AutoCompleteNames()
+  call complete(col('.'), s:autocomplete_names)
+  return ''
+endfunc
+
 function! twitchChat#autoComplete(findstart, base)
     if a:findstart
         " locate the start of the word
@@ -235,8 +240,9 @@ function! s:open_window(position)
     setlocal noswapfile
     setlocal winfixheight
     setlocal winfixwidth
-    setlocal completefunc=twitchChat#autoComplete
-    inoremap <buffer><silent><expr> <c-space> <C-x><C-u>
+    " setlocal completefunc=twitchChat#autoComplete
+    " inoremap <buffer><silent><expr> <c-space> <C-x><C-u>
+	inoremap <C-space> <C-R>=AutoCompleteNames()<CR>
     call s:activate_autocmds(bufnr('%'))
   else
     let scr_winnr = bufwinnr(scr_bufnr)
