@@ -47,8 +47,9 @@ if ! exists('g:twitch_chat_binary')
     endif
 endif
 
-function! twitchChat#setAutoComplete(name)
-    call add(s:autocomplete_names, name)
+function! twitchChat#setAutoComplete(...)
+    let s:autocomplete_names = a:000
+    " call add(s:autocomplete_names, name)
 endfunction
 
 function! twitchChat#init()
