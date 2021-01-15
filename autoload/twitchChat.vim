@@ -34,7 +34,7 @@ function! twitchChat#autoComplete(findstart, base)
         " find classes matching "a:base"
         let res = []
         for m in s:autocomplete_names
-            if m in g:twitch_chat_name_filter
+            if index(g:twitch_chat_name_filter, m) > -1
                 continue
             endif
             if m =~ '^' . a:base
