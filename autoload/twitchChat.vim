@@ -236,6 +236,7 @@ function! s:open_window(position)
     setlocal winfixheight
     setlocal winfixwidth
     setlocal completefunc=twitchChat#autoComplete
+    inoremap <silent><expr> <c-space> <C-x><C-u>
     call s:activate_autocmds(bufnr('%'))
   else
     let scr_winnr = bufwinnr(scr_bufnr)
