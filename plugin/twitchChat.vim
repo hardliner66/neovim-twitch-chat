@@ -32,8 +32,9 @@ command! -nargs=0 TwitchChatSendSelected call twitchChat#sendSelected()
 command! -nargs=0 TwitchChatSendLine call twitchChat#sendLine()
 command! -nargs=1 TwitchChatSendMessage call twitchChat#sendMessage(<q-args>)
 command! -nargs=0 TwitchChatScratch call twitchChat#scratch()
-command! -nargs=0 TwitchAuto call twitchChat#printAuto()
 
 vnoremap <silent> <C-s>v :<C-U>TwitchChatSendSelected<CR>
 nnoremap <silent> <C-s>n :TwitchChatSendLine<CR>
 nnoremap <silent> <C-s>k :TwitchChatScratch<CR>
+
+call twitchChat#connect()

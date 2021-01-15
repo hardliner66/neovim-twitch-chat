@@ -281,4 +281,3 @@ function! s:quick_insert()
   execute bufwinnr(bufnr('#')) . 'wincmd w'
 endfunction
 
-call twitchChat#connect()

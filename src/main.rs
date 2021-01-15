@@ -110,7 +110,7 @@ fn get_env_var(key: &str) -> Result<String, Box<dyn std::error::Error>> {
     Ok(my_var)
 }
 
-fn start_event_loop(receiver: mpsc::Receiver<Event>, mut nvim: Neovim) {
+fn start_event_loop(receiver: mpsc::Receiver<Event>, nvim: Neovim) {
     dotenv::dotenv().ok();
     let (tx, rx) = channel::<String>();
     let (tx2, rx2) = channel::<ChatMessage>();
@@ -136,9 +136,7 @@ fn start_event_loop(receiver: mpsc::Receiver<Event>, mut nvim: Neovim) {
                 
                 // update autocomplete list in vim
                 let mut nvim = nvim2.lock().unwrap();
-                nvim.command("echom \"new chatter joined\"") .unwrap();
                 nvim.call_function("twitchChat#setAutoComplete", names.iter().map(|s| s.as_str().into()).collect::<Vec<_>>()).unwrap();
-                // nvim.set_var("g:something", "abcd".into()).unwrap();
             }
         }
     });
