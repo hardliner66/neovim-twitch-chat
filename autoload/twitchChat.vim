@@ -1,8 +1,8 @@
 
-if exists('g:autoloaded_twitch_chat')
+if exists('g:twitch_chat_autoloaded_twitch_chat')
   finish
 endif
-let g:autoloaded_twitch_chat = 1
+let g:twitch_chat_autoloaded_twitch_chat = 1
 
 if ! exists('s:jobid')
   let s:jobid = 0
@@ -10,6 +10,10 @@ endif
 
 if ! exists('s:autocomplete_names')
     let s:autocomplete_names = []
+endif
+
+if ! exists('g:twitch_chat_name_filter')
+    let g:twitch_chat_name_filter = []
 endif
 
 func! AutoCompleteNames()
@@ -30,6 +34,9 @@ function! twitchChat#autoComplete(findstart, base)
         " find classes matching "a:base"
         let res = []
         for m in s:autocomplete_names
+            if m in g:twitch_chat_name_filter
+                continue
+            endif
             if m =~ '^' . a:base
                 call add(res, m)
             endif
@@ -237,8 +244,7 @@ function! s:open_window(position)
     setlocal winfixheight
     setlocal winfixwidth
     setlocal completefunc=twitchChat#autoComplete
-    inoremap <buffer><silent><expr> <c-space> :call feedkeys("\<C-x>\<C-u>", "n")
-	" inoremap <C-space> <C-R>=AutoCompleteNames()<CR>
+    inoremap <buffer><silent> <c-space> <C-x><C-u>
     call s:activate_autocmds(bufnr('%'))
   else
     let scr_winnr = bufwinnr(scr_bufnr)
