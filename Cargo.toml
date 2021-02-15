@@ -8,5 +8,6 @@ edition = "2018"
 log = "0.3.7"
 simplelog = "0.4.2"
 neovim-lib = "0.6.1"
-twitch_chat_wrapper = { git = "https://github.com/hardliner66/twitch_chat_wrapper", branch = "eof_crash_workaround" }
+tokio = { version = "1.0", features = ["rt", "rt-multi-thread", "time", "sync", "macros"] }
+twitch-irc = "2.2.0"
 dotenv = "0.15.0"
