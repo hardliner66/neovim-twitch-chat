@@ -18,7 +18,7 @@ use neovim_lib::neovim::Neovim;
 use neovim_lib::neovim_api::NeovimApi;
 use neovim_lib::session::Session;
 
-use simplelog::{Config, LogLevel, LogLevelFilter, WriteLogger};
+use simplelog::{LevelFilter, WriteLogger};
 
 use std::error::Error;
 use std::sync::mpsc;
@@ -49,21 +49,21 @@ fn init_logging() -> Result<(), Box<dyn Error>> {
         .to_lowercase()
         .as_ref()
     {
-        "debug" => LogLevelFilter::Debug,
-        "error" => LogLevelFilter::Error,
-        "info" => LogLevelFilter::Info,
-        "off" => LogLevelFilter::Off,
-        "trace" => LogLevelFilter::Trace,
-        "warn" => LogLevelFilter::Warn,
-        _ => LogLevelFilter::Off,
+        "debug" => LevelFilter::Debug,
+        "error" => LevelFilter::Error,
+        "info" => LevelFilter::Info,
+        "off" => LevelFilter::Off,
+        "trace" => LevelFilter::Trace,
+        "warn" => LevelFilter::Warn,
+        _ => LevelFilter::Off,
     };
 
-    let config = Config {
-        time: Some(LogLevel::Error),
-        level: Some(LogLevel::Error),
-        target: Some(LogLevel::Error),
-        location: Some(LogLevel::Error),
-    };
+    let config = simplelog::ConfigBuilder::new()
+        .set_time_level(LevelFilter::Error)
+        .set_target_level(LevelFilter::Error)
+        .set_location_level(LevelFilter::Error)
+        .set_max_level(LevelFilter::Error)
+        .build();
 
     let filepath = match env::var("LOG_FILE") {
         Err(err) => match err {
