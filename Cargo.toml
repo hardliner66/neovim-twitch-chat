@@ -1,8 +1,8 @@
 [package]
 authors = ["hardliner66 <hardliner66@gmail.com>"]
 name = "neovim-twitch-chat"
-description = "Command line tool to send messages to twitch"
-version = "1.0.1-alpha.0"
+description = "A neovim plugin to send messages to twitch"
+version = "1.0.2"
 edition = "2018"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/hardliner66/twitch-send"
