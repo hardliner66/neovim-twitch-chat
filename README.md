@@ -24,7 +24,7 @@ cargo install --force neovim-twitch-chat
 ```vim
 " If you have cargo installed, you can use the install script
 " to automatically update the binary
-Plug 'hardliner66/neovim-twitch-chat', { 'do': './install.sh' }
+Plug 'hardliner66/neovim-twitch-chat', { 'do': ':!./install.sh' }
 
 " If you manually installed the backend, you can just do
 Plug 'hardliner66/neovim-twitch-chat'
