@@ -288,7 +288,7 @@ dependencies = [
 
 [[package]]
 name = "neovim-twitch-chat"
-version = "1.0.3"
+version = "1.0.4-alpha.0"
 dependencies = [
  "dotenv",
  "log",
